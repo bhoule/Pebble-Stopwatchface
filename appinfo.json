@@ -1,0 +1,31 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "Ditonus",
+    "longName": "Stopwatchface",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/prime.png",
+                "name": "IMAGE_PRIME",
+                "type": "png"
+            },
+            {
+                "file": "images/icon.png",
+                "menuIcon": true,
+                "name": "IMAGE_ICON",
+                "type": "png"
+            }
+        ]
+    },
+    "shortName": "Stopwatch",
+    "uuid": "4d208b3a-5295-4f39-ad37-a8c6ff73451c",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
