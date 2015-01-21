@@ -130,10 +130,6 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(s_time_layer, GColorWhite);
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
   text_layer_add_to_window(s_time_layer, window);
-  
-  // simulate tick
-  time_t current_time = time(NULL);
-  tick_handler(localtime(&current_time), SECOND_UNIT);
 }
 
 static void main_window_unload(Window *window) {
@@ -147,7 +143,19 @@ static void main_window_unload(Window *window) {
   text_layer_destroy(s_time_layer);
   bitmap_layer_destroy(s_prime_layer);
 }
+
+static void main_window_appear(Window *window) {
+  // simulate tick
+  time_t current_time = time(NULL);
+  tick_handler(localtime(&current_time), SECOND_UNIT);
   
+  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+}
+
+static void main_window_disappear(Window *window) {
+  tick_timer_service_unsubscribe();
+}
+
 static void init() {
   time(&s_start_time);
   
@@ -155,11 +163,11 @@ static void init() {
   window_set_background_color(s_main_window, GColorBlack);
   window_set_window_handlers(s_main_window, (WindowHandlers) {
     .load = main_window_load,
+    .appear = main_window_appear,
+    .disappear = main_window_disappear,
     .unload = main_window_unload
   });
   window_stack_push(s_main_window, true);
-  
-  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 }
 
 static void deinit() {
