@@ -1,5 +1,7 @@
 #include <pebble.h>
 
+#define SCREENSHOT 0
+
 #define ELAPSED_TOP 14
 #define DATE_TOP 84
 #define MARGIN_LEFT 9
@@ -66,11 +68,13 @@ static void update_date(struct tm *tick_time) {
   text_layer_set_text(s_date_layer, date_text);
 }
 
+#if SCREENSHOT
 static void prep_for_screenshot() {
   text_layer_set_text(s_time_layer, "7:28");
   text_layer_set_text(s_elapsed_minutes_layer, "00");
   text_layer_set_text(s_elapsed_seconds_layer, "00");
 }
+#endif
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_elapsed();
@@ -78,7 +82,9 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
     update_time(tick_time);
     update_date(tick_time);
   }
-  //prep_for_screenshot();
+  #if SCREENSHOT
+  prep_for_screenshot();
+  #endif
 }
 
 static void main_window_load(Window *window) {
